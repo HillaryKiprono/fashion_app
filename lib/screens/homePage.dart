@@ -104,25 +104,109 @@ class _HomePageState extends State<HomePage> {
           child: searchRowWidget(),
         ),
       ),
-      body: Column(
-        children: [
-          carouselWidget(),
-          categoryWidget(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text("Our Latest Fashion",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),), Text("See More",style: TextStyle(color: Colors.green,fontSize: 16),)],
+      bottomNavigationBar: Container(
+        height: 80,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20),
+            topLeft: Radius.circular(20),
           ),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.7, // Adjust the aspect ratio as needed
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [Icon(Icons.home), Text("Home")],
               ),
-              itemCount: items.length, // Number of items in the list
-              itemBuilder: (context, index) {
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Icon(Icons.payments_outlined), Text("Voucher")],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Icon(Icons.wallet_giftcard), Text("Wallet")],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Icon(Icons.settings), Text("Settings")],
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          const SliverToBoxAdapter(
+            child: carouselWidget(),
+          ),
+          const SliverToBoxAdapter(
+            child: categoryWidget(),
+          ),
+          const SliverAppBar(
+            expandedHeight: 40.0,
+            // Adjust the height as needed
+            pinned: true,
+            floating: false,
+            elevation: 0,
+            backgroundColor: Colors.white,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                "Our Latest Fashion",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Our Latest Fashion",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "See More",
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverGrid(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.7,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
                 final item = items[index];
                 return SingleItem(item: item);
               },
+              childCount: items.length,
             ),
           ),
         ],
@@ -138,79 +222,76 @@ class SingleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // height: 300,
-      child: Card(
-        elevation: 0.2,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              alignment: Alignment.topRight,
-              children: [
-                Image.asset(
-                  item.imagePath,
-                  width: double.infinity,
-                  height: 80.0, // Set your desired image height
-                  fit: BoxFit.cover,
+    return Card(
+      elevation: 0.2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              Image.asset(
+                item.imagePath,
+                width: double.infinity,
+                height: 80.0,
+                fit: BoxFit.cover,
+              ),
+              const Expanded(
+                child: Icon(
+                  Icons.favorite,
+                  // color: Colors.red,
+                  size: 24.0,
                 ),
-                const Expanded(
-                  child: Icon(
-                    Icons.favorite,
-                    // color: Colors.red,
-                    size: 24.0, // Adjust the size of the favorite icon
+              ),
+            ],
+          ),
+          Expanded(
+            child: Text(
+              item.title,
+              style: const TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              item.description,
+              style: const TextStyle(
+                fontSize: 14.0,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.star,
+                      color: Colors.yellow,
+                      size: 16.0,
+                    ),
+                    Text(
+                      item.rating,
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  item.price, // Replace with your price
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
-            Expanded(
-              child: Text(
-                item.title,
-                style: const TextStyle(
-                  fontSize: 16.0, // Adjust the title font size
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Text(
-                item.description,
-                style: const TextStyle(
-                  fontSize: 14.0, // Adjust the subtitle font size
-                ),
-              ),
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                        size: 16.0, // Adjust the rating icon size
-                      ),
-                      Text(
-                        item.rating, // Replace with your rating value
-                        style: TextStyle(
-                          fontSize: 14.0, // Adjust the rating font size
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    item.price, // Replace with your price
-                    style: TextStyle(
-                      fontSize: 16.0, // Adjust the price font size
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -306,7 +387,6 @@ class categoryWidget extends StatelessWidget {
               ],
             ),
           ),
-
         ],
       ),
     );
@@ -322,7 +402,7 @@ class carouselWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 200,
-      child: Carousel(
+      child: const Carousel(
         dotSize: 3,
         dotBgColor: Colors.transparent,
         boxFit: BoxFit.cover,
