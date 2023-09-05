@@ -1,3 +1,4 @@
+import 'package:fashion_app/screens/productDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:lecle_flutter_carousel_pro/lecle_flutter_carousel_pro.dart';
 import '../models/singleItemData.dart';
@@ -100,9 +101,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-          child: searchRowWidget(),
-        ),
+        title: const searchRowWidget(),
       ),
       bottomNavigationBar: Container(
         height: 80,
@@ -113,32 +112,32 @@ class _HomePageState extends State<HomePage> {
             topLeft: Radius.circular(20),
           ),
         ),
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [Icon(Icons.home), Text("Home")],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Icon(Icons.payments_outlined), Text("Voucher")],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Icon(Icons.wallet_giftcard), Text("Wallet")],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Icon(Icons.settings), Text("Settings")],
@@ -155,23 +154,7 @@ class _HomePageState extends State<HomePage> {
           const SliverToBoxAdapter(
             child: categoryWidget(),
           ),
-          const SliverAppBar(
-            expandedHeight: 40.0,
-            // Adjust the height as needed
-            pinned: true,
-            floating: false,
-            elevation: 0,
-            backgroundColor: Colors.white,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                "Our Latest Fashion",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ),
+
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -222,76 +205,86 @@ class SingleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0.2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            alignment: Alignment.topRight,
-            children: [
-              Image.asset(
-                item.imagePath,
-                width: double.infinity,
-                height: 80.0,
-                fit: BoxFit.cover,
-              ),
-              const Expanded(
-                child: Icon(
-                  Icons.favorite,
-                  // color: Colors.red,
-                  size: 24.0,
-                ),
-              ),
-            ],
+    return InkWell(
+      onTap: () {
+        // Navigate to the ItemDetailPage and pass the selected item
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ItemDetailPage(item: item),
           ),
-          Expanded(
-            child: Text(
-              item.title,
-              style: const TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              item.description,
-              style: const TextStyle(
-                fontSize: 14.0,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        );
+      },
+      child: Card(
+        elevation: 0.2,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              alignment: Alignment.topRight,
               children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                      size: 16.0,
-                    ),
-                    Text(
-                      item.rating,
-                      style: const TextStyle(
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ],
+                Image.asset(
+                  item.imagePath,
+                  width: double.infinity,
+                  height: 80.0,
+                  fit: BoxFit.cover,
                 ),
-                Text(
-                  item.price, // Replace with your price
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+                const Expanded(
+                  child: Icon(
+                    Icons.favorite,
+                     color: Colors.red,
+                    size: 24.0,
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            Expanded(
+              child: Text(
+                item.title,
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                item.description,
+                style: const TextStyle(
+                  fontSize: 14.0,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                        size: 16.0,
+                      ),
+                      Text(
+                        item.rating,
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    item.price, // Replace with your price
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
