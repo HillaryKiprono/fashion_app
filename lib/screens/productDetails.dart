@@ -151,12 +151,12 @@ class ItemDetailPage extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    item.price,
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
+                  // Text(
+                  //   item.price,
+                  //   style: const TextStyle(
+                  //     fontSize: 16.0,
+                  //   ),
+                  // ),
                 ],
               ),
             ],
