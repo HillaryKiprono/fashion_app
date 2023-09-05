@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:lecle_flutter_carousel_pro/lecle_flutter_carousel_pro.dart';
 import '../models/singleItemData.dart';
 import 'package:http/http.dart' as http;
+import 'package:shimmer_animation/shimmer_animation.dart';
+
+
 class HomePage extends StatefulWidget {
   const HomePage({
     super.key,
@@ -16,86 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // Defining a list of items
   final List<SingleItemData> items = [
-    // SingleItemData(
-    //   imagePath: "images/products/blazer1.jpeg",
-    //   title: "Blazer",
-    //   description:
-    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-    //   rating: "4.5",
-    //   price: "Ksh.999.99",
-    // ),
-    // SingleItemData(
-    //   imagePath: "images/products/shoe1.jpg",
-    //   title: "Shoe",
-    //   description:
-    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-    //   rating: "4.2",
-    //   price: "Ksh.799.99",
-    // ),
-    // SingleItemData(
-    //   imagePath: "images/products/skt1.jpeg",
-    //   title: "Skirt",
-    //   description:
-    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-    //   rating: "4.8",
-    //   price: "Ksh.1499.99",
-    // ),
-    // SingleItemData(
-    //   imagePath: "images/products/img2.jpg",
-    //   title: "Trouser",
-    //   description:
-    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-    //   rating: "4.0",
-    //   price: "Ksh.599.99",
-    // ),
-    // SingleItemData(
-    //   imagePath: "images/products/img4.jpg",
-    //   title: "Top",
-    //   description:
-    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-    //   rating: "4.0",
-    //   price: "Ksh.599.99",
-    // ),
-    // SingleItemData(
-    //   imagePath: "images/products/img6.jpg",
-    //   title: "Shirt",
-    //   description:
-    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-    //   rating: "4.0",
-    //   price: "Ksh.599.99",
-    // ),
-    // SingleItemData(
-    //   imagePath: "images/cats/dress.png",
-    //   title: "Title 4",
-    //   description:
-    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-    //   rating: "4.0",
-    //   price: "Ksh.599.99",
-    // ),
-    // SingleItemData(
-    //   imagePath: "images/products/img10.jpg",
-    //   title: "Title 4",
-    //   description:
-    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-    //   rating: "4.0",
-    //   price: "Ksh.599.99",
-    // ),
-    // SingleItemData(
-    //   imagePath: "images/cats/jeans.jpg",
-    //   title: "Jeans",
-    //   description:
-    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-    //   rating: "4.0",
-    //   price: "Ksh.599.99",
-    // ),
-    // SingleItemData(
-    //   imagePath: "images/cats/shirt.jpg",
-    //   title: "Shirts",
-    //   description:
-    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-    //   rating: "4.0",
-    //   price: "Ksh.599.99",
-    // ),
+
   ];
 
   Future<List<SingleItemData>> fetchFakeStoreData() async {
@@ -207,27 +131,69 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          // SliverGrid(
-          //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          //     crossAxisCount: 2,
-          //     childAspectRatio: 0.7,
-          //   ),
-          //   delegate: SliverChildBuilderDelegate(
-          //     (BuildContext context, int index) {
-          //       final item = items[index];
-          //       return SingleItem(item: item);
-          //     },
-          //     childCount: items.length,
-          //   ),
-          // ),
+      
+          // FutureBuilder<List<SingleItemData>>(
+          //   future: fetchFakeStoreData(),
+          //   builder: (context, snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       // Return a SliverToBoxAdapter to keep the space occupied
+          //       return const SliverToBoxAdapter(
+          //
+          //       );
+          //     } else if (snapshot.hasError) {
+          //       return SliverToBoxAdapter(
+          //         child: Text('Error: ${snapshot.error}'),
+          //       );
+          //     } else {
+          //       final List<SingleItemData> items = snapshot.data!;
+          //       return SliverGrid(
+          //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          //           crossAxisCount: 2,
+          //           childAspectRatio: 0.7,
+          //         ),
+          //         delegate: SliverChildBuilderDelegate(
+          //               (BuildContext context, int index) {
+          //             final item = items[index];
+          //             return SingleItem(item: item);
+          //           },
+          //           childCount: items.length,
+          //         ),
+          //       );
+          //     }
+          //   },
+          // )
+
 
           FutureBuilder<List<SingleItemData>>(
             future: fetchFakeStoreData(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                // Return a SliverToBoxAdapter to keep the space occupied
                 return SliverToBoxAdapter(
-                  child: CircularProgressIndicator(),
+                  child: Shimmer(
+                    color: Colors.greenAccent,
+                    duration: Duration(seconds: 12), // Adjust duration as needed
+                    child: Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 120.0,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(height: 4.0),
+                        Container(
+                          width: double.infinity,
+                          height: 16.0,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(height: 4.0),
+                        Container(
+                          width: double.infinity,
+                          height: 16.0,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               } else if (snapshot.hasError) {
                 return SliverToBoxAdapter(
@@ -287,7 +253,7 @@ class SingleItem extends StatelessWidget {
                 Image(
                   image: NetworkImage(item.image), // Use NetworkImage to load image from URL
                   width: double.infinity,
-                  height: 80.0,
+                  height: 120.0,
                   fit: BoxFit.cover,
                 ),
                 const Expanded(
@@ -301,50 +267,62 @@ class SingleItem extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                item.title,
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Text(
-                item.description,
-                style: const TextStyle(
-                  fontSize: 14.0,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                        size: 16.0,
-                      ),
-                      Text(
-                        item.rating,
-                        style: const TextStyle(
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ],
+                  item.title,
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Text(
-                    item.price, // Replace with your price
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+                ),
+            ),
+
+            // Expanded(
+            //   child: Text(
+            //     item.description,
+            //     style: const TextStyle(
+            //       fontSize: 14.0,
+            //     ),
+            //   ),
+            // ),
+
+            // Expanded(
+            //   child:
+            //       Row(
+            //         children: [
+            //           const Icon(
+            //             Icons.star,
+            //             color: Colors.yellow,
+            //             size: 16.0,
+            //           ),
+            //           Text(
+            //             item.rating,
+            //             style: const TextStyle(
+            //               fontSize: 14.0,
+            //             ),
+            //           ),
+            //
+            //       Text(
+            //         item.price,
+            //         style: const TextStyle(
+            //           fontSize: 16.0,
+            //           fontWeight: FontWeight.bold,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+
+
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      item.price,
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue
+                      ),
                     ),
                   ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
@@ -359,7 +337,7 @@ class categoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return const SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

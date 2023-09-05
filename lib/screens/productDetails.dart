@@ -124,6 +124,7 @@ class ItemDetailPage extends StatelessWidget {
               Image(
                 image: NetworkImage(item.image), // Use NetworkImage to load image from URL
                 width: double.infinity,
+                height: 200,
                 fit: BoxFit.cover,
               ),
 
