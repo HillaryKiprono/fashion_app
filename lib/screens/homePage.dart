@@ -1,8 +1,9 @@
+import 'dart:convert';
 import 'package:fashion_app/screens/productDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:lecle_flutter_carousel_pro/lecle_flutter_carousel_pro.dart';
 import '../models/singleItemData.dart';
-
+import 'package:http/http.dart' as http;
 class HomePage extends StatefulWidget {
   const HomePage({
     super.key,
@@ -15,87 +16,114 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // Defining a list of items
   final List<SingleItemData> items = [
-    SingleItemData(
-      imagePath: "images/products/blazer1.jpeg",
-      title: "Blazer",
-      description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-      rating: "4.5",
-      price: "Ksh.999.99",
-    ),
-    SingleItemData(
-      imagePath: "images/products/shoe1.jpg",
-      title: "Shoe",
-      description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-      rating: "4.2",
-      price: "Ksh.799.99",
-    ),
-    SingleItemData(
-      imagePath: "images/products/skt1.jpeg",
-      title: "Skirt",
-      description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-      rating: "4.8",
-      price: "Ksh.1499.99",
-    ),
-    SingleItemData(
-      imagePath: "images/products/img2.jpg",
-      title: "Trouser",
-      description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-      rating: "4.0",
-      price: "Ksh.599.99",
-    ),
-    SingleItemData(
-      imagePath: "images/products/img4.jpg",
-      title: "Top",
-      description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-      rating: "4.0",
-      price: "Ksh.599.99",
-    ),
-    SingleItemData(
-      imagePath: "images/products/img6.jpg",
-      title: "Shirt",
-      description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-      rating: "4.0",
-      price: "Ksh.599.99",
-    ),
-    SingleItemData(
-      imagePath: "images/cats/dress.png",
-      title: "Title 4",
-      description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-      rating: "4.0",
-      price: "Ksh.599.99",
-    ),
-    SingleItemData(
-      imagePath: "images/products/img10.jpg",
-      title: "Title 4",
-      description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-      rating: "4.0",
-      price: "Ksh.599.99",
-    ),
-    SingleItemData(
-      imagePath: "images/cats/jeans.jpg",
-      title: "Jeans",
-      description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-      rating: "4.0",
-      price: "Ksh.599.99",
-    ),
-    SingleItemData(
-      imagePath: "images/cats/shirt.jpg",
-      title: "Shirts",
-      description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
-      rating: "4.0",
-      price: "Ksh.599.99",
-    ),
+    // SingleItemData(
+    //   imagePath: "images/products/blazer1.jpeg",
+    //   title: "Blazer",
+    //   description:
+    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
+    //   rating: "4.5",
+    //   price: "Ksh.999.99",
+    // ),
+    // SingleItemData(
+    //   imagePath: "images/products/shoe1.jpg",
+    //   title: "Shoe",
+    //   description:
+    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
+    //   rating: "4.2",
+    //   price: "Ksh.799.99",
+    // ),
+    // SingleItemData(
+    //   imagePath: "images/products/skt1.jpeg",
+    //   title: "Skirt",
+    //   description:
+    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
+    //   rating: "4.8",
+    //   price: "Ksh.1499.99",
+    // ),
+    // SingleItemData(
+    //   imagePath: "images/products/img2.jpg",
+    //   title: "Trouser",
+    //   description:
+    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
+    //   rating: "4.0",
+    //   price: "Ksh.599.99",
+    // ),
+    // SingleItemData(
+    //   imagePath: "images/products/img4.jpg",
+    //   title: "Top",
+    //   description:
+    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
+    //   rating: "4.0",
+    //   price: "Ksh.599.99",
+    // ),
+    // SingleItemData(
+    //   imagePath: "images/products/img6.jpg",
+    //   title: "Shirt",
+    //   description:
+    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
+    //   rating: "4.0",
+    //   price: "Ksh.599.99",
+    // ),
+    // SingleItemData(
+    //   imagePath: "images/cats/dress.png",
+    //   title: "Title 4",
+    //   description:
+    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
+    //   rating: "4.0",
+    //   price: "Ksh.599.99",
+    // ),
+    // SingleItemData(
+    //   imagePath: "images/products/img10.jpg",
+    //   title: "Title 4",
+    //   description:
+    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
+    //   rating: "4.0",
+    //   price: "Ksh.599.99",
+    // ),
+    // SingleItemData(
+    //   imagePath: "images/cats/jeans.jpg",
+    //   title: "Jeans",
+    //   description:
+    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
+    //   rating: "4.0",
+    //   price: "Ksh.599.99",
+    // ),
+    // SingleItemData(
+    //   imagePath: "images/cats/shirt.jpg",
+    //   title: "Shirts",
+    //   description:
+    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ",
+    //   rating: "4.0",
+    //   price: "Ksh.599.99",
+    // ),
   ];
+
+  Future<List<SingleItemData>> fetchFakeStoreData() async {
+    try {
+      final response = await http.get(Uri.parse('https://fakestoreapi.com/products'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        return data.map((item) {
+          return SingleItemData(
+            image: item['image'],
+            title: item['title'],
+            description: item['description'],
+            rating: item['rating'].toString(),
+            price: '\$${item['price'].toStringAsFixed(2)}',
+          );
+        }).toList();
+      } else {
+        throw Exception('Failed to load data from fakestoreapi.com');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      throw e; // Rethrow the error to notify the caller
+    }
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -179,19 +207,53 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          SliverGrid(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.7,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                final item = items[index];
-                return SingleItem(item: item);
-              },
-              childCount: items.length,
-            ),
-          ),
+          // SliverGrid(
+          //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          //     crossAxisCount: 2,
+          //     childAspectRatio: 0.7,
+          //   ),
+          //   delegate: SliverChildBuilderDelegate(
+          //     (BuildContext context, int index) {
+          //       final item = items[index];
+          //       return SingleItem(item: item);
+          //     },
+          //     childCount: items.length,
+          //   ),
+          // ),
+
+          FutureBuilder<List<SingleItemData>>(
+            future: fetchFakeStoreData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Return a SliverToBoxAdapter to keep the space occupied
+                return SliverToBoxAdapter(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return SliverToBoxAdapter(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else {
+                final List<SingleItemData> items = snapshot.data!;
+                return SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.7,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                      final item = items[index];
+                      return SingleItem(item: item);
+                    },
+                    childCount: items.length,
+                  ),
+                );
+              }
+            },
+          )
+
+
+
         ],
       ),
     );
@@ -222,8 +284,8 @@ class SingleItem extends StatelessWidget {
             Stack(
               alignment: Alignment.topRight,
               children: [
-                Image.asset(
-                  item.imagePath,
+                Image(
+                  image: NetworkImage(item.image), // Use NetworkImage to load image from URL
                   width: double.infinity,
                   height: 80.0,
                   fit: BoxFit.cover,

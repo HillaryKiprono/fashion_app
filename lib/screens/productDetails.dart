@@ -11,27 +11,27 @@ class ItemDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
        elevation: 0.2,
-        actions: [
+        actions: const [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.favorite,
                     color: Colors.red,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.share_outlined,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.wallet,
                   ),
@@ -121,12 +121,12 @@ class ItemDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                item.imagePath,
+              Image(
+                image: NetworkImage(item.image), // Use NetworkImage to load image from URL
                 width: double.infinity,
-                // height: 200.0,
                 fit: BoxFit.cover,
               ),
+
               const SizedBox(height: 16.0),
               Text(
                 item.description,
@@ -137,7 +137,7 @@ class ItemDetailPage extends StatelessWidget {
               const SizedBox(height: 16.0),
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.star,
                     color: Colors.red,
                   ),
@@ -147,7 +147,7 @@ class ItemDetailPage extends StatelessWidget {
                       fontSize: 16.0,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(
